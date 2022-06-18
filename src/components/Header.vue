@@ -2,7 +2,20 @@
   <div class="container header">
     <div class="desc-block">
       <div class="main-image">
-        <img src="../assets/main-image.png" alt="main-image">
+        <div v-if="placeTab">
+          <img 
+          class="header-img" 
+          src="../assets/main-image.png" 
+          alt="main-image"
+        >
+        </div>
+        <div v-if="!placeTab">
+          <img 
+          class="header-img" 
+          src="../assets/office.png" 
+          alt="office"
+        >
+        </div>
       </div>
 
       <div class="head-block">
@@ -26,17 +39,21 @@
         </div>
       </div>
     </div>
-    <div class="navigation">
-      <div class="nav">
+    <div class="navigation"
+        :class="{ 'hide-navigation': !navState }"
+      >
+      <div 
+        class="nav"
+      >
         <div class="nav-wrapper nav-left">
           <a href="" class="nav-item">
             <img class="image-item" src="../assets/Logo.png" alt="Logo">
           </a>
           <div class="tabs-container">
             <div class="tabs">
-              <input type="radio" id="radio-1" name="tabs" checked />
+              <input @click="cleanPlace()" type="radio" id="radio-1" name="tabs" checked />
               <label class="tab" for="radio-1">Дом</label>
-              <input type="radio" id="radio-2" name="tabs" />
+              <input @click="cleanPlace()" type="radio" id="radio-2" name="tabs" />
               <label class="tab" for="radio-2">Офис</label>
               <span class="glider"></span>
             </div>
@@ -52,13 +69,19 @@
         <div class="nav-wrapper nav-right">
           <a tel="+380674016977" class="nav-item">+380 67 401 69 77</a>
           <p class="working-hours">| 24/7</p>
-          <div class="menu-btn-immitation">
-            <div></div>
-            <div></div>
-          </div>
+
         </div>
       </div>
     </div>
+    <button @click="setNavState(), setActive()"
+      class="menu-button"
+      :class="{ 'active': !activeBurger }" 
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="16px">
+        <path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M-0.000,-0.000 L21.000,-0.000 L21.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
+        <path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M-0.000,8.000 L21.000,8.000 L21.000,10.000 L-0.000,10.000 L-0.000,14.000 Z"/>
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -68,7 +91,10 @@ export default {
   name: 'HelloWorld',
   data: () => ({
     activated: null,
-    scrollPosition: null
+    scrollPosition: null,
+    placeTab: true,
+    navState: true,
+    activeBurger: false
   }),
   computed: {
     getTransition: function() {
@@ -94,6 +120,18 @@ export default {
       } else {
         this.activated = false
       }
+    },
+
+    cleanPlace() {
+      this.placeTab = !this.placeTab
+    },
+
+    setNavState() {
+      this.navState = !this.navState
+    },
+
+    setActive() {
+      this.activeBurger = !this.activeBurger
     },
 
     buttonMove() {
@@ -161,6 +199,10 @@ export default {
 .navigation {
   position: absolute;
   top: 0;
+  padding-right: 35px;
+  background: rgba(235, 230, 230, 0.5);
+  transform: translate(0, 0);
+  transition: ease 1s;
 }
 
 .nav {
@@ -178,6 +220,11 @@ export default {
   text-decoration: none;
   cursor: pointer;
   margin: 0 13px;
+}
+
+.header-img {
+  width: 720px;
+  height: 800px;
 }
 
 /* Tabs */
@@ -261,6 +308,12 @@ input[id="radio-3"]:checked ~ .glider {
 
 .nav-item:hover {
   text-decoration: underline;
+}
+
+.hide-navigation {
+  /* display: none; */
+  transition: ease 1s;
+  transform: translate(0, -100px);
 }
 
 .working-hours {
@@ -388,18 +441,42 @@ input[id="radio-3"]:checked ~ .glider {
   justify-content: center;
 }
 
-.menu-btn-immitation {
-  margin-left: 30px;
+.menu-button {
+  position: absolute;
+  top: 36px;
+  right: 40px;
+  width: 22px;
+  height: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
 }
-.menu-btn-immitation div {
+
+
+
+.menu-btn {
   width: 22px;
   height: 2px;
   background-color: black;
   margin: 3px 0;
   border-radius: 1px;
+  cursor: pointer;
 }
 
 .nav-right {
   display: contents;
+}
+
+path{
+	transition: transform 0.25s;;
+}
+.active path:nth-of-type(1){
+	transform: rotate(45deg);
+	transform-origin: 1px 2px;
+}
+
+.active path:nth-of-type(2){
+	transform: rotate(-45deg);
+	transform-origin: 8px 11px;
 }
 </style>

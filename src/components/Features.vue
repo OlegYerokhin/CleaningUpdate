@@ -78,7 +78,7 @@ export default {
 }
 
 .card-moving {
-  margin: 20px;
+  margin: 20px 20px 80px;
   transform: translate(0px 60px);
   transition: ease-in-out 1s;
 }
@@ -112,7 +112,7 @@ export default {
   background-color: #5A30F0;
   text-align: center;
   border-radius: 8px;
-  margin: 20px;
+  margin: 20px 20px 80px;
   position: relative;
   opacity: 0;
   position: absolute;
